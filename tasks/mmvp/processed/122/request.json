@@ -1,7 +1,0 @@
-{
-    "query": "<img src='../tasks/mmvp/processed/122/122.jpg'> Does this corn have white kernels? Options: (a) Yes (b) No",
-    "images": [
-        "../tasks/mmvp/processed/122/122.jpg"
-    ],
-    "answer": "(b)"
-}

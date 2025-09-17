@@ -1,7 +1,0 @@
-{
-    "query": "<img src='../tasks/mmvp/processed/229/229.jpg'> Do all the bottles in the picture face the same direction? Options: (a) Yes (b) No",
-    "images": [
-        "../tasks/mmvp/processed/229/229.jpg"
-    ],
-    "answer": "(a)"
-}

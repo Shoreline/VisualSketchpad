@@ -1,7 +1,0 @@
-{
-    "query": "<img src='../tasks/mmvp/processed/291/291.jpg'> Is the minion in the image smiling with its tongue out? Options: (a) Yes (b) No",
-    "images": [
-        "../tasks/mmvp/processed/291/291.jpg"
-    ],
-    "answer": "(a)"
-}

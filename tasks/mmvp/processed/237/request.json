@@ -1,7 +1,0 @@
-{
-    "query": "<img src='../tasks/mmvp/processed/237/237.jpg'> Is the ground completely covered by red fallen leaves? Options: (a) Yes (b) No",
-    "images": [
-        "../tasks/mmvp/processed/237/237.jpg"
-    ],
-    "answer": "(a)"
-}

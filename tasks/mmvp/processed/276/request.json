@@ -1,7 +1,0 @@
-{
-    "query": "<img src='../tasks/mmvp/processed/276/276.jpg'> How many trees are the treehouse built on? Options: (a) One (b) More than one",
-    "images": [
-        "../tasks/mmvp/processed/276/276.jpg"
-    ],
-    "answer": "(b)"
-}

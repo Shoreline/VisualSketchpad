@@ -1,7 +1,0 @@
-{
-    "query": "<img src='../tasks/mmvp/processed/127/127.jpg'> Is the flower's center protruding or indented? Options: (a) Protruding (b) Indented",
-    "images": [
-        "../tasks/mmvp/processed/127/127.jpg"
-    ],
-    "answer": "(a)"
-}

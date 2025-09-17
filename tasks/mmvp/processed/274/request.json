@@ -1,7 +1,0 @@
-{
-    "query": "<img src='../tasks/mmvp/processed/274/274.jpg'> What pattern is in the picture? Options: (a) Pumpkin Lights (b) Bats",
-    "images": [
-        "../tasks/mmvp/processed/274/274.jpg"
-    ],
-    "answer": "(b)"
-}

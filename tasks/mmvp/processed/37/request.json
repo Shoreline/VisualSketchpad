@@ -1,7 +1,0 @@
-{
-    "query": "<img src='../tasks/mmvp/processed/37/37.jpg'> What color are the flowers in the background? Options: (a) Pink (b) Violet",
-    "images": [
-        "../tasks/mmvp/processed/37/37.jpg"
-    ],
-    "answer": "(a)"
-}

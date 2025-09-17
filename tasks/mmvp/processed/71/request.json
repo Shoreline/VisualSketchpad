@@ -1,7 +1,0 @@
-{
-    "query": "<img src='../tasks/mmvp/processed/71/71.jpg'> Is the lock locked or unlocked? Options: (a) Locked (b) Unlocked",
-    "images": [
-        "../tasks/mmvp/processed/71/71.jpg"
-    ],
-    "answer": "(a)"
-}

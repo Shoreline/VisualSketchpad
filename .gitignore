@@ -1,8 +1,66 @@
 
+# Virtual environment
+sketchpad_env/
+venv/
+env/
+.venv/
+
+# Data (ignore any new/untracked files added under tasks/)
+tasks/**
+tasks/**/*.zip
+tasks/**/*.tar
+tasks/**/*.tar.gz
+tasks/**/*.tgz
+tasks/**/*.7z
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Vision experts
 vision_experts/.DS_Store
 vision_experts/Depth-Anything/.DS_Store
 vision_experts/simplified_som/.DS_Store
 vision_experts/simplified_som/ops/.DS_Store
-.DS_Store
-.DS_Store
-.DS_Store
+
+# Test files
+agent/test_setup.py
+agent/simple_test.py
+agent/check_models.py
+agent/patch_autogen.py
+agent/fix_patch.py
+agent/fix_proxies.py
+agent/fix_indentation.py

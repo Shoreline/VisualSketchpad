@@ -21,7 +21,7 @@ def checks_terminate_message(msg):
         raise NotImplementedError
 
 
-def run_agent(task_input, output_dir, task_type="vision", task_name=None):
+def run_agent(task_input, output_dir, task_type="vision", task_name=None, model=None):
     """Run the Visual Sketchpad agent on one task instance.
 
     Args:
@@ -29,7 +29,13 @@ def run_agent(task_input, output_dir, task_type="vision", task_name=None):
         output_dir (str): a path to the directory where the output will be saved
         task_type (str): Task type. Should be vision, math, or geo. Defaults to "vision".
         task_name (str, optional): Only needed for math tasks. Defaults to None.
+        model (str, optional): Model name to use (e.g., "google/gemini-2.5-flash"). 
+            If provided, overrides the model in config.py. Defaults to None.
     """
+    
+    # Override model if provided
+    if model:
+        llm_config["config_list"][0]["model"] = model
     
     # task type should be one of "vision", "math", "geo"
     assert task_type in ["vision", "math", "geo"]
@@ -91,6 +97,12 @@ def run_agent(task_input, output_dir, task_type="vision", task_name=None):
     
     # running the planning experiment
     all_messages = {}
+    
+    # Log the model being used
+    model_name = llm_config.get('config_list', [{}])[0].get('model', 'unknown')
+    print(f"\n{'='*60}")
+    print(f"🤖 Using Model: {model_name}")
+    print(f"{'='*60}\n")
     
     planner = MultimodalConversableAgent(
         name="planner",

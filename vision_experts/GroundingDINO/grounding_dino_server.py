@@ -55,8 +55,8 @@ def detection(image, text, box_threshold=0.35, text_threshold=0.25):
     )
     
     ret_json = {
-        "boxes": boxes,
-        "logits": logits,
+        "boxes": boxes.tolist(),
+        "logits": logits.tolist(),
         "phrases": phrases
     }
     
@@ -67,11 +67,17 @@ def detection(image, text, box_threshold=0.35, text_threshold=0.25):
     return annotated_pil_image, ret_json
 
 
-demo = gr.Interface(fn=detection, inputs=[gr.Image(type="filepath"),
-                                          "text",
-                                          gr.Number(value=0.35),
-                                          gr.Number(value=0.25)],
-                    outputs=[gr.Image(type="pil"), "json"]
+demo = gr.Interface(fn=detection, 
+                    inputs=[
+                        gr.Image(type="filepath", label="image"),
+                        gr.Text(label="text"),
+                        gr.Number(value=0.35, label="box_threshold"),
+                        gr.Number(value=0.25, label="text_threshold")
+                    ],
+                    outputs=[
+                        gr.Image(type="pil", label="annotated_image"), 
+                        gr.JSON(label="detection_results")
+                    ]
                     )
                     
-demo.launch(share=True, server_name="localhost", server_port=8081)
+demo.launch(share=True, server_name="0.0.0.0", server_port=7860, show_api=True)

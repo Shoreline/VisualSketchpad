@@ -1,0 +1,40 @@
+=== 调试文档 (6个) ===
+agent/CHANGES_SUMMARY.md
+agent/DEBUGGING_TOOLS_README.md
+agent/DEBUG_VISION_TOOLS.md
+agent/NEXT_STEPS.md
+agent/QUICK_DEBUG_GUIDE.md
+agent/WHAT_CHANGED.md
+
+=== 调试脚本 (6个) ===
+agent/debug_server_response.py
+agent/run_diagnosis.py
+agent/test_json_structure.py
+agent/test_server_json.py
+agent/test_vision_tools.py
+agent/tools_with_error_handling.py
+
+=== 实用脚本 (3个 - 需要确认) ===
+agent/batch_process.py
+agent/convert_jsonl_to_tasks.py
+agent/run_mmsb_tasks.py
+
+=== 日志文件 (多个) ===
+agent/jupyter_gateway.log
+agent/jupyter_gateway.log.1
+agent/jupyter_gateway.log.2
+agent/jupyter_gateway.log.3
+agent/run.log
+agent/run_example1.log
+agent/run_mmsb_all.log
+run.log
+
+=== 临时文件 ===
+agent/temp_image.png
+formatted_output.txt
+
+=== 输出目录 ===
+agent/output/
+outputs/mm-safetybench/
+outputs/mmsb-tasks/
+outputs/test_geo/

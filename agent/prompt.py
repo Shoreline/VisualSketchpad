@@ -371,12 +371,20 @@ ANSWER: The third image fits into the black part. TERMINATE
 
 """
         prompt = initial_prompt
+        
+        # Add clear separator between examples and actual task
+        prompt += "\n\n" + "="*80 + "\n"
+        prompt += "# ⚠️  ATTENTION! YOUR ACTUAL TASK BEGINS HERE ⚠️  #\n"
+        prompt += "# The above were EXAMPLES for reference only. #\n"
+        prompt += "# Below is the REAL problem you need to solve. #\n"
+        prompt += "="*80 + "\n\n"
+        
         prompt += f"# USER REQUEST #: {query}\n"
         if n_images > 0:
             prompt += f"# USER IMAGE stored in {', '.join([f'image_{i}' for i in range(1, n_images+1)])} as PIL image.\n"
         else:
             prompt += "# USER IMAGE: No image provided.\n"
-        prompt += "Now please generate only THOUGHT 0 and ACTION 0 in RESULT. If no action needed, also reply with ANSWER: <your answer> and ends with TERMINATE in the RESULT:\n# RESULT #:\n"
+        prompt += "\nNow please generate only THOUGHT 0 and ACTION 0 in RESULT. If no action needed, also reply with ANSWER: <your answer> and ends with TERMINATE in the RESULT:\n# RESULT #:\n"
         return prompt
     
     def get_parsing_feedback(self, error_message: str, error_code: str) -> str:
@@ -693,8 +701,16 @@ ANSWER: odd. TERMINATE
         elif self.subtask in ["math_parity"]:
             code = ex["code"]
             taskprompt = taskprompt.format(code)
+        
+        # Add clear separator between examples and actual task
+        prompt += "\n\n" + "="*80 + "\n"
+        prompt += "# ⚠️  ATTENTION! YOUR ACTUAL TASK BEGINS HERE ⚠️  #\n"
+        prompt += "# The above were EXAMPLES for reference only. #\n"
+        prompt += "# Below is the REAL problem you need to solve. #\n"
+        prompt += "="*80 + "\n\n"
+        
         prompt += f"# USER REQUEST #: {taskprompt}\n"
-        prompt += "Now please generate only THOUGHT 0 and ACTION 0 in RESULT. If no action needed, also reply with ANSWER: <your answer> and ends with TERMINATE in the RESULT:\n# RESULT #:\n"
+        prompt += "\nNow please generate only THOUGHT 0 and ACTION 0 in RESULT. If no action needed, also reply with ANSWER: <your answer> and ends with TERMINATE in the RESULT:\n# RESULT #:\n"
         return prompt
     
     def get_parsing_feedback(self, error_message: str, error_code: str) -> str:
@@ -925,10 +941,17 @@ ANSWER: 10. TERMINATE
         image_path_code = ex["image_path_code"]
         code = ex["code"]
 
-        prompt += f"USER REQUEST #: Given the geometry diagram <img src='{image_path_code}'> and the diagram logic form {diagram_logic_form}" + \
+        # Add clear separator between examples and actual task
+        prompt += "\n\n" + "="*80 + "\n"
+        prompt += "# ⚠️  ATTENTION! YOUR ACTUAL TASK BEGINS HERE ⚠️  #\n"
+        prompt += "# The above was an EXAMPLE for reference only. #\n"
+        prompt += "# Below is the REAL problem you need to solve. #\n"
+        prompt += "="*80 + "\n\n"
+        
+        prompt += f"# USER REQUEST #: Given the geometry diagram <img src='{image_path_code}'> and the diagram logic form {diagram_logic_form}" + \
         f"Below is the original matplotlib code of the geometry: {code}\nYou must draw auxiliary lines to solve the following question: [{question}]\n" + \
         "Propose matplotlib code to draw the auxiliary lines. Make sure to label the beginning and end point of the auxiliary line."
-        prompt += "Now please generate only THOUGHT 0 and ACTION 0 in RESULT. If no action needed, also reply with ANSWER: <your answer> and ends with TERMINATE in the RESULT:\n# RESULT #:\n"
+        prompt += "\n\nNow please generate only THOUGHT 0 and ACTION 0 in RESULT. If no action needed, also reply with ANSWER: <your answer> and ends with TERMINATE in the RESULT:\n# RESULT #:\n"
         return prompt
     
     def get_parsing_feedback(self, error_message: str, error_code: str) -> str:

@@ -1,3 +1,9 @@
+import warnings
+
+# Filter out specific warnings that don't affect functionality
+warnings.filterwarnings("ignore", message="urllib3 v2 only supports OpenSSL 1.1.1+.*")
+warnings.filterwarnings("ignore", message="flaml.automl is not available.*")
+
 import json
 import os
 import argparse, shutil
@@ -63,7 +69,7 @@ def run_agent(task_input, output_dir, task_type="vision", task_name=None, model=
     
         prompt_generator = ReACTPrompt()
         parser = Parser()
-        executor = CodeExecutor(working_dir=task_directory, use_vision_tools=True)
+        executor = CodeExecutor(working_dir=task_directory, use_custom_tools=True)
         
         # read all images, save them in image_1, image_2, ... as PIL images
         image_reading_codes = python_codes_for_images_reading(images)
@@ -83,7 +89,7 @@ def run_agent(task_input, output_dir, task_type="vision", task_name=None, model=
         images = []
         prompt_generator = GeoPrompt()
         parser = Parser()
-        executor = CodeExecutor(working_dir=task_directory)
+        executor = CodeExecutor(working_dir=task_directory, use_custom_tools=True)
     
     user = SketchpadUserAgent(
         name="multimodal_user_agent",

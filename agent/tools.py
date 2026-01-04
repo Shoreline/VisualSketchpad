@@ -9,7 +9,17 @@ from matplotlib.colors import Normalize
 
 # Try to import vision tools (may not be available for all task types)
 try:
-    from gradio_client import Client, file
+    from gradio_client import Client
+    # Try different ways to import 'file' (depends on gradio_client version)
+    try:
+        from gradio_client import file
+    except ImportError:
+        try:
+            from gradio_client.utils import file
+        except ImportError:
+            # In some versions, file might not be needed or has a different name
+            file = None
+    
     from multimodal_conversable_agent import MultimodalConversableAgent
     from config import SOM_ADDRESS, GROUNDING_DINO_ADDRESS, DEPTH_ANYTHING_ADDRESS
     
@@ -19,6 +29,7 @@ try:
     da_client = Client(DEPTH_ANYTHING_ADDRESS)
     
     VISION_TOOLS_AVAILABLE = True
+    print("✅ Vision tools successfully loaded")
 except ImportError as e:
     # Vision tools not available (e.g., for geometry tasks)
     print(f"Note: Vision tools not available ({e}). Geometry and other non-vision tools will still work.")
@@ -26,7 +37,18 @@ except ImportError as e:
     gd_client = None
     da_client = None
     VISION_TOOLS_AVAILABLE = False
+    file = None
 
+
+# Helper function to wrap file paths for gradio_client
+def _wrap_file(filepath):
+    """Wrap a file path for gradio_client.predict() calls.
+    Uses the 'file' wrapper if available, otherwise returns the path directly."""
+    if file is not None:
+        return file(filepath)
+    else:
+        # In newer versions, gradio_client might accept paths directly
+        return filepath
 
 
 class AnnotatedImage:
@@ -78,7 +100,7 @@ def segment_and_mark(image, granularity:float = 1.8, alpha:float = 0.1, anno_mod
         image.save(tmp_file.name, 'JPEG')
         image = tmp_file.name
 
-        outputs = som_client.predict(file(image), granularity, alpha, "Number", anno_mode)
+        outputs = som_client.predict(_wrap_file(image), granularity, alpha, "Number", anno_mode)
 
         original_image = Image.open(image)
         output_image = Image.open(outputs[0])
@@ -86,12 +108,17 @@ def segment_and_mark(image, granularity:float = 1.8, alpha:float = 0.1, anno_mod
         output_image = AnnotatedImage(output_image, original_image)
         
         w,h = output_image.annotated_image.size
-                
-        masks = outputs[1]
+        
+        # Check if outputs[1] is a file path (string) or already parsed data
+        masks_data = outputs[1]
+        if isinstance(masks_data, str):
+            # It's a file path, load the JSON
+            with open(masks_data, 'r') as f:
+                masks_data = json.load(f)
         
         bboxes = []
         
-        for mask in masks:
+        for mask in masks_data:
             bbox = mask['bbox']
             bboxes.append((bbox[0]/w, bbox[1]/h, bbox[2]/w, bbox[3]/h))
         
@@ -128,7 +155,7 @@ def detection(image, objects, box_threshold:float = 0.35, text_threshold:float =
         image.save(tmp_file.name, 'JPEG')
         image = tmp_file.name
     
-        outputs = gd_client.predict(file(image), ', '.join(objects), box_threshold, text_threshold)
+        outputs = gd_client.predict(_wrap_file(image), ', '.join(objects), box_threshold, text_threshold)
         
         # process images
         original_image = Image.open(image)
@@ -136,7 +163,14 @@ def detection(image, objects, box_threshold:float = 0.35, text_threshold:float =
         output_image = AnnotatedImage(output_image, original_image)
         
         # process boxes
-        boxes = outputs[1]['boxes']
+        # Check if outputs[1] is a file path (string) or already parsed data
+        boxes_data = outputs[1]
+        if isinstance(boxes_data, str):
+            # It's a file path, load the JSON
+            with open(boxes_data, 'r') as f:
+                boxes_data = json.load(f)
+        
+        boxes = boxes_data['boxes']
         processed_boxes = []
         
         for box in boxes:
@@ -171,7 +205,7 @@ def depth(image):
     with tempfile.NamedTemporaryFile(delete=True) as tmp_file:
         image.save(tmp_file.name, 'JPEG')
         image = tmp_file.name
-        outputs = da_client.predict(file(image))
+        outputs = da_client.predict(_wrap_file(image))
     output_image = Image.open(outputs)
     
     return output_image

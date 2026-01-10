@@ -231,7 +231,21 @@ demo = gr.Interface(
     cache_examples=False,
 )
 
+# Force serial processing to prevent state corruption from concurrent requests
+# This prevents tensor dimension mismatches caused by thread-unsafe model operations
+# Multiple requests can queue up, but only 1 will be processed at a time
+demo.queue(
+    concurrency_count=1    # KEY: Process only 1 request at a time (prevents state corruption)
+    # Note: In Gradio 3.x, use concurrency_count; in Gradio 4.x, use default_concurrency_limit
+)
+
 # 在服务器上建议 0.0.0.0；需要公网临时链接就把 share=True
-demo.launch(share=True, server_name="0.0.0.0", server_port=7862)
+demo.launch(
+    share=True, 
+    server_name="0.0.0.0", 
+    server_port=7862
+    # Note: max_threads defaults to 40, which is fine
+    # The key protection is default_concurrency_limit=1 above
+)
 # ------------------------------------------------
 

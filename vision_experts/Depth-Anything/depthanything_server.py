@@ -87,8 +87,23 @@ demo = gr.Interface(fn=predict_depthmap,
                         gr.JSON(label="depth_data")
                     ]
                     )
+
+# Force serial processing to prevent state corruption from concurrent requests
+# This prevents tensor dimension mismatches caused by thread-unsafe model operations
+# Multiple requests can queue up, but only 1 will be processed at a time
+demo.queue(
+    concurrency_count=1    # KEY: Process only 1 request at a time (prevents state corruption)
+    # Note: In Gradio 3.x, use concurrency_count; in Gradio 4.x, use default_concurrency_limit
+)
                     
-demo.launch(share=True, server_name="0.0.0.0", server_port=7861, show_api=True)
+demo.launch(
+    share=True, 
+    server_name="0.0.0.0", 
+    server_port=7861, 
+    show_api=True
+    # Note: max_threads defaults to 40, which is fine
+    # The key protection is default_concurrency_limit=1 above
+)
 
 
 

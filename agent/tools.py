@@ -122,6 +122,10 @@ def segment_and_mark(image, granularity:float = 1.8, alpha:float = 0.1, anno_mod
             bbox = mask['bbox']
             bboxes.append((bbox[0]/w, bbox[1]/h, bbox[2]/w, bbox[3]/h))
         
+    # Apply post-processing (transparent to LLM)
+    from post_processors import apply_postprocess
+    output_image = apply_postprocess(output_image, bboxes, "segment_and_mark")
+    
     return output_image, bboxes
 
 
@@ -176,6 +180,10 @@ def detection(image, objects, box_threshold:float = 0.35, text_threshold:float =
         for box in boxes:
             processed_boxes.append((box[0]-box[2]/2, box[1] - box[3]/2, box[2], box[3]))
         
+    # Apply post-processing (transparent to LLM)
+    from post_processors import apply_postprocess
+    output_image = apply_postprocess(output_image, processed_boxes, "detection")
+    
     return output_image, processed_boxes
 
 

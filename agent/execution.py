@@ -22,6 +22,9 @@ class CodeExecutor:
         if not os.path.exists(self.working_dir):
             os.makedirs(self.working_dir, exist_ok=True)
             
+        # Set environment variable for post-processors to access working directory
+        os.environ["VSP_WORKING_DIR"] = self.working_dir
+            
         # set up the server
         self.server = LocalJupyterServer()
             
